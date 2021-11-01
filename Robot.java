@@ -177,8 +177,6 @@ final public class Robot {
 
         while(!trashCollected) {
             if (boxSensor.getDistance(DistanceUnit.CM) <= 20) {
-                telemetry.addLine("SUNT IN IF 1");
-                telemetry.update();
                 collectTrash();
                 trashCollected = true;
             }else{
@@ -201,7 +199,7 @@ final public class Robot {
 
 
     private void getTrashCoord() throws IOException, JSONException {
-        //transformam json-ul in 2 variabile double
+        //clean the JSON data
         String data = readJsonUrl().replaceAll("[{} ]", "");
         data = data.replace("]","");
         data = data.replace("[","");
@@ -249,6 +247,7 @@ final public class Robot {
         this.armElbowMotor.setPower(0.0);
     }
 
+    //calculate distance and degree to trash
     private double focalDistance = 377;
     private double cameraHeigh = 41;
 
@@ -260,7 +259,7 @@ final public class Robot {
         return ((cameraHeigh*focalDistance)/Math.abs(y));
     }
 
-
+    //request data from the Raspberry Pi server
     private String readJsonUrl() throws IOException, JSONException {
         URL url;
         StringBuffer response = new StringBuffer();
@@ -298,7 +297,7 @@ final public class Robot {
                 conn.disconnect();
             }
 
-            //Here is your json in string format
+            //json in string format
             String responseJSON = response.toString();
             if(responseJSON != null) {
                 return responseJSON;
@@ -330,8 +329,6 @@ final public class Robot {
         this.rightFrontMotor.setPower(this.gamepad1.left_stick_y + this.gamepad1.right_stick_x);
         this.rightBackMotor.setPower(this.gamepad1.left_stick_y + this.gamepad1.right_stick_x);
 
-        // Range.scale() pe viitor.
-
         while(this.gamepad1.left_stick_button && this.gamepad1.right_stick_button){
             this.telemetry.addLine("POWWWWEEEERRR");
             this.telemetry.update();
@@ -352,8 +349,6 @@ final public class Robot {
 
         if(this.gamepad2.x){
             this.dropServo.setPosition(0.7);
-            this.telemetry.addLine("AM APASAT X");
-            this.telemetry.update();
         }
 
         if(!this.gamepad2.x){
@@ -372,7 +367,6 @@ final public class Robot {
         this.telemetry.addData("y: ", this.gamepad1.y);
         this.telemetry.addData("a: ", this.gamepad1.a);
 
-        // a in jos, y in sus
 
         if(this.digitalTouch.isPressed() && this.digitalTouch.isPressed() && this.gamepad1.a && !this.gamepad1.y) {
             this.armLatching.setPower(0.0);
@@ -437,7 +431,7 @@ final public class Robot {
         return this.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES).firstAngle;
     }
 
-    static final double COUNTS_PER_MOTOR_REV = 1120;    // eg: TETRIX Motor Encoder
+    static final double COUNTS_PER_MOTOR_REV = 1120;    // eg: AndyMark motor encoder
     static final double DRIVE_GEAR_REDUCTION = 1.0;     // This is < 1.0 if geared UP
     static final double WHEEL_DIAMETER_CM    = 4.0 * 2.54;     // For figuring circumference
     static final double COUNTS_PER_CM        = ((COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION) / (WHEEL_DIAMETER_CM  * 3.1415));
