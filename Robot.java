@@ -2,10 +2,6 @@ package org.firstinspires.ftc.teamcode;
 
 import android.util.Log;
 
-import com.disnodeteam.dogecv.CameraViewDisplay;
-import com.disnodeteam.dogecv.DogeCV;
-import com.disnodeteam.dogecv.Dogeforia;
-import com.disnodeteam.dogecv.detectors.roverrukus.GoldDetector;
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.hardware.rev.Rev2mDistanceSensor;
 import com.qualcomm.robotcore.hardware.CRServo;
@@ -31,10 +27,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackable;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackableDefaultListener;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackables;
 
-//import java.io.File;
-//import java.io.FileOutputStream;
-//import java.io.IOException;
-//import java.io.PrintStream;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -215,7 +208,7 @@ final public class Robot {
         data = data.replace("\"","");
         data = data.replace("\"","");
 
-        //spargem vectorul ca sa creem 2 valori pentru X si Y
+        //split the string to get the X and Y values
         String[] coord = data.split(",", 0);
 
         if(coord.length != 1) {
